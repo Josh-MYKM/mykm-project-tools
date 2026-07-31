@@ -12,9 +12,6 @@
 <script>
 window.TrelloPowerUp.initialize({
 
-  /*
-   * BOARD SETTINGS
-   */
   'show-settings': function(t, options) {
     return t.popup({
       title: 'MYKM Project Tools Settings',
@@ -24,71 +21,97 @@ window.TrelloPowerUp.initialize({
   },
 
 
-  /*
-   * CARD BUTTONS
-   *
-   * Buttons appear only when URLs have been stored
-   * against the Trello card.
-   */
   'card-buttons': function(t, options) {
 
-    return Promise.all([
+    return t.card('attachments')
+      .then(function(card) {
 
-      t.get(
-        'card',
-        'shared',
-        'smCutlistUrl',
-        ''
-      ),
+        var attachments = card.attachments || [];
 
-      t.get(
-        'card',
-        'shared',
-        'projectFolderUrl',
-        ''
-      )
-
-    ]).then(function(values) {
-
-      var smCutlistUrl = values[0];
-      var projectFolderUrl = values[1];
-
-      var buttons = [];
+        var cutlistAttachment = null;
+        var folderAttachment = null;
 
 
-      /*
-       * SM CUTLIST
-       */
-      if (smCutlistUrl) {
+        attachments.forEach(function(attachment) {
 
-        buttons.push({
-          text: 'SM Cutlist',
-          condition: 'always',
-          url: smCutlistUrl,
-          target: '_blank'
+          var name =
+            String(attachment.name || '')
+              .toLowerCase();
+
+          var url =
+            String(attachment.url || '')
+              .toLowerCase();
+
+
+          /*
+           * Find Google Sheets SM Cutlist.
+           */
+          if (
+            !cutlistAttachment &&
+            (
+              name.indexOf('sm cutlist') !== -1 ||
+              (
+                url.indexOf(
+                  'docs.google.com/spreadsheets/'
+                ) !== -1 &&
+                name.indexOf('cutlist') !== -1
+              )
+            )
+          ) {
+            cutlistAttachment = attachment;
+          }
+
+
+          /*
+           * Find Google Drive Project Folder.
+           */
+          if (
+            !folderAttachment &&
+            (
+              name === 'project folder' ||
+              (
+                url.indexOf(
+                  'drive.google.com/drive/folders/'
+                ) !== -1
+              )
+            )
+          ) {
+            folderAttachment = attachment;
+          }
+
         });
 
-      }
+
+        var buttons = [];
 
 
-      /*
-       * PROJECT FOLDER
-       */
-      if (projectFolderUrl) {
+        if (cutlistAttachment) {
 
-        buttons.push({
-          text: 'Project Folder',
-          condition: 'always',
-          url: projectFolderUrl,
-          target: '_blank'
-        });
+          buttons.push({
+            text: 'SM Cutlist',
+            condition: 'always',
+            url: cutlistAttachment.url,
+            target: '_blank'
+          });
 
-      }
+        }
 
 
-      return buttons;
+        if (folderAttachment) {
 
-    });
+          buttons.push({
+            text: 'Project Folder',
+            condition: 'always',
+            url: folderAttachment.url,
+            target: '_blank'
+          });
+
+        }
+
+
+        return buttons;
+
+      });
 
   }
 
