@@ -1,50 +1,602 @@
 <!doctype html>
 <html>
 <head>
+
   <meta charset="utf-8">
+
   <title>MYKM Project Tools Settings</title>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      color: #172b4d;
+
+    * {
+      box-sizing: border-box;
     }
+
+    body {
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      margin: 0;
+      padding: 20px;
+
+      color: #172b4d;
+      background: #ffffff;
+    }
+
+
+    h1 {
+      font-size: 22px;
+      margin: 0 0 6px 0;
+    }
+
 
     h2 {
-      margin-top: 0;
+      font-size: 16px;
+      margin-top: 26px;
+      margin-bottom: 10px;
+
+      padding-bottom: 7px;
+
+      border-bottom: 1px solid #dfe1e6;
     }
 
-    button {
-      padding: 10px 16px;
+
+    .description {
+      color: #5e6c84;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+
+    .section-description {
+      color: #5e6c84;
+      font-size: 13px;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+
+    .main-option {
+      display: block;
+
+      padding: 10px 12px;
+      margin-bottom: 8px;
+
+      background: #f7f8f9;
+
+      border-radius: 6px;
+
+      font-weight: 600;
+
       cursor: pointer;
     }
+
+
+    .option {
+      display: flex;
+      align-items: center;
+
+      padding: 7px 4px;
+
+      cursor: pointer;
+    }
+
+
+    input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+
+      margin-right: 9px;
+
+      cursor: pointer;
+    }
+
+
+    .grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+      gap: 2px 24px;
+    }
+
+
+    .warning {
+      margin-top: 20px;
+
+      padding: 12px;
+
+      background: #fff7d6;
+
+      border: 1px solid #f5cd47;
+      border-radius: 6px;
+
+      color: #533f04;
+
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+
+    .footer {
+      display: flex;
+      align-items: center;
+
+      margin-top: 26px;
+    }
+
+
+    button {
+      border: 0;
+
+      padding: 10px 18px;
+
+      border-radius: 5px;
+
+      background: #0c66e4;
+      color: white;
+
+      font-weight: 600;
+
+      cursor: pointer;
+    }
+
+
+    button:hover {
+      background: #0055cc;
+    }
+
+
+    #saved {
+      display: none;
+
+      margin-left: 12px;
+
+      color: #216e4e;
+
+      font-weight: 600;
+    }
+
+
+    @media (max-width: 500px) {
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
-<h2>MYKM Project Tools</h2>
 
-<p>
-  Power-Up settings are loading correctly.
-</p>
+<h1>MYKM Project Tools</h1>
 
-<button id="close">
-  Close
-</button>
+
+<div class="description">
+
+  Choose which attachment types should be removed
+  automatically from Trello cards.
+
+  <br><br>
+
+  <strong>A tick means the attachment type will be removed.</strong>
+
+</div>
+
+
+
+<label class="main-option">
+
+  <input
+    type="checkbox"
+    id="cleanerEnabled"
+  >
+
+  Enable Attachment Cleaner
+
+</label>
+
+
+
+<label class="main-option">
+
+  <input
+    type="checkbox"
+    id="emailOnly"
+  >
+
+  Only clean cards created by Email-to-board
+
+</label>
+
+
+
+<h2>Documents</h2>
+
+
+<div class="grid">
+
+  <label class="option">
+    <input type="checkbox" id="pdf">
+    PDF
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="doc">
+    DOC
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="docx">
+    DOCX
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="xls">
+    XLS
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="xlsx">
+    XLSX
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="csv">
+    CSV
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="txt">
+    TXT
+  </label>
+
+</div>
+
+
+
+<h2>Archives</h2>
+
+
+<div class="grid">
+
+  <label class="option">
+    <input type="checkbox" id="zip">
+    ZIP
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="rar">
+    RAR
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="sevenZip">
+    7Z
+  </label>
+
+</div>
+
+
+
+<h2>Images</h2>
+
+
+<div class="section-description">
+
+  Leave image formats unticked if you want site photos
+  to remain on the Trello card.
+
+</div>
+
+
+<div class="grid">
+
+  <label class="option">
+    <input type="checkbox" id="jpg">
+    JPG / JPEG
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="png">
+    PNG
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="gif">
+    GIF
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="webp">
+    WEBP
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="heic">
+    HEIC
+  </label>
+
+
+  <label class="option">
+    <input type="checkbox" id="tiff">
+    TIFF
+  </label>
+
+</div>
+
+
+
+<h2>Other</h2>
+
+
+<label class="option">
+
+  <input
+    type="checkbox"
+    id="removeUnknown"
+  >
+
+  Remove unknown file types
+
+</label>
+
+
+
+<div class="warning">
+
+  Image formats are unticked by default so that site photos
+  remain attached to the job card.
+
+</div>
+
+
+
+<div class="footer">
+
+  <button id="save">
+    Save Settings
+  </button>
+
+
+  <span id="saved">
+    Saved ✓
+  </span>
+
+</div>
+
+
 
 <script src="https://p.trellocdn.com/power-up.min.js"></script>
 
-<script>
-const t = window.TrelloPowerUp.iframe();
 
-document
-  .getElementById('close')
-  .addEventListener('click', function() {
-    t.closePopup();
+<script>
+
+  var t =
+    window.TrelloPowerUp.iframe();
+
+
+  /*
+   * DEFAULT SETTINGS
+   *
+   * Documents / archives:
+   * REMOVE
+   *
+   * Images:
+   * KEEP
+   */
+  var defaults = {
+
+    cleanerEnabled: true,
+
+    emailOnly: true,
+
+
+    pdf: true,
+
+    doc: true,
+
+    docx: true,
+
+    xls: true,
+
+    xlsx: true,
+
+    csv: true,
+
+    txt: true,
+
+
+    zip: true,
+
+    rar: true,
+
+    sevenZip: true,
+
+
+    jpg: false,
+
+    png: false,
+
+    gif: false,
+
+    webp: false,
+
+    heic: false,
+
+    tiff: false,
+
+
+    removeUnknown: false
+
+  };
+
+
+
+  function setCheckbox(
+    id,
+    value
+  ) {
+
+    var element =
+      document.getElementById(id);
+
+
+    if (element) {
+
+      element.checked =
+        Boolean(value);
+
+    }
+
+  }
+
+
+
+  function getCheckbox(id) {
+
+    var element =
+      document.getElementById(id);
+
+
+    if (!element) {
+      return false;
+    }
+
+
+    return element.checked;
+
+  }
+
+
+
+  /*
+   * LOAD SAVED BOARD SETTINGS
+   */
+  t.get(
+    'board',
+    'shared',
+    'attachmentCleanerSettings',
+    defaults
+  )
+
+  .then(function(savedSettings) {
+
+
+    var settings =
+      Object.assign(
+        {},
+        defaults,
+        savedSettings || {}
+      );
+
+
+    Object.keys(defaults)
+      .forEach(function(key) {
+
+        setCheckbox(
+          key,
+          settings[key]
+        );
+
+      });
+
+
+    return t.sizeTo('body');
+
   });
+
+
+
+  /*
+   * SAVE SETTINGS
+   */
+  document
+    .getElementById('save')
+    .addEventListener(
+
+      'click',
+
+      function() {
+
+
+        var settings = {};
+
+
+        Object.keys(defaults)
+          .forEach(function(key) {
+
+            settings[key] =
+              getCheckbox(key);
+
+          });
+
+
+
+        t.set(
+          'board',
+          'shared',
+          'attachmentCleanerSettings',
+          settings
+        )
+
+        .then(function() {
+
+
+          var saved =
+            document.getElementById(
+              'saved'
+            );
+
+
+          saved.style.display =
+            'inline';
+
+
+          setTimeout(
+            function() {
+
+              saved.style.display =
+                'none';
+
+            },
+            1800
+          );
+
+
+          return t.sizeTo('body');
+
+        });
+
+      }
+
+    );
+
 </script>
+
 
 </body>
 </html>
