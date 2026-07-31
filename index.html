@@ -20,8 +20,7 @@ window.TrelloPowerUp.initialize({
     });
   },
 
-
-  'card-buttons': function(t, options) {
+  'card-buttons': function(t, opts) {
 
     return t.card('attachments')
       .then(function(card) {
@@ -30,7 +29,6 @@ window.TrelloPowerUp.initialize({
 
         var cutlistAttachment = null;
         var folderAttachment = null;
-
 
         attachments.forEach(function(attachment) {
 
@@ -42,9 +40,8 @@ window.TrelloPowerUp.initialize({
             String(attachment.url || '')
               .toLowerCase();
 
-
           /*
-           * Find Google Sheets SM Cutlist.
+           * SM CUTLIST
            */
           if (
             !cutlistAttachment &&
@@ -61,19 +58,16 @@ window.TrelloPowerUp.initialize({
             cutlistAttachment = attachment;
           }
 
-
           /*
-           * Find Google Drive Project Folder.
+           * PROJECT FOLDER
            */
           if (
             !folderAttachment &&
             (
               name === 'project folder' ||
-              (
-                url.indexOf(
-                  'drive.google.com/drive/folders/'
-                ) !== -1
-              )
+              url.indexOf(
+                'drive.google.com/drive/folders/'
+              ) !== -1
             )
           ) {
             folderAttachment = attachment;
@@ -81,36 +75,27 @@ window.TrelloPowerUp.initialize({
 
         });
 
-
         var buttons = [];
 
-
         if (cutlistAttachment) {
-
           buttons.push({
             text: 'SM Cutlist',
             condition: 'always',
             url: cutlistAttachment.url,
             target: '_blank'
           });
-
         }
 
-
         if (folderAttachment) {
-
           buttons.push({
             text: 'Project Folder',
             condition: 'always',
             url: folderAttachment.url,
             target: '_blank'
           });
-
         }
 
-
         return buttons;
-
       });
 
   }
