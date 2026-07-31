@@ -12,27 +12,82 @@
 <script>
 window.TrelloPowerUp.initialize({
 
-  'card-buttons': function(t, options) {
-
-    return [{
-      text: 'MYKM TEST',
-      condition: 'always',
-
-      callback: function(t) {
-        return t.alert({
-          message: 'MYKM Project Tools is working!'
-        });
-      }
-    }];
-
-  },
-
+  /*
+   * BOARD SETTINGS
+   */
   'show-settings': function(t, options) {
-
     return t.popup({
       title: 'MYKM Project Tools Settings',
       url: './settings.html',
-      height: 500
+      height: 700
+    });
+  },
+
+
+  /*
+   * CARD BUTTONS
+   *
+   * Buttons appear only when URLs have been stored
+   * against the Trello card.
+   */
+  'card-buttons': function(t, options) {
+
+    return Promise.all([
+
+      t.get(
+        'card',
+        'shared',
+        'smCutlistUrl',
+        ''
+      ),
+
+      t.get(
+        'card',
+        'shared',
+        'projectFolderUrl',
+        ''
+      )
+
+    ]).then(function(values) {
+
+      var smCutlistUrl = values[0];
+      var projectFolderUrl = values[1];
+
+      var buttons = [];
+
+
+      /*
+       * SM CUTLIST
+       */
+      if (smCutlistUrl) {
+
+        buttons.push({
+          text: 'SM Cutlist',
+          condition: 'always',
+          url: smCutlistUrl,
+          target: '_blank'
+        });
+
+      }
+
+
+      /*
+       * PROJECT FOLDER
+       */
+      if (projectFolderUrl) {
+
+        buttons.push({
+          text: 'Project Folder',
+          condition: 'always',
+          url: projectFolderUrl,
+          target: '_blank'
+        });
+
+      }
+
+
+      return buttons;
+
     });
 
   }
